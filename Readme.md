@@ -17,3 +17,5 @@
 
 **After this we can run the project using production mode:**
 `npm start`
+
+**I have also attached the sample db folder for start the first time.**

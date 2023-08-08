@@ -1,0 +1,21 @@
+[
+  {
+    "_id": "comment1",
+    "userId": "user3",
+    "postId": "post1",
+    "content": "Great post!"
+  },
+  {
+    "_id": "comment2",
+    "userId": "user2",
+    "postId": "post1",
+    "content": "Thanks for sharing."
+  },
+  {
+    "_id": "comment3",
+    "userId": "user1",
+    "postId": "post3",
+    "content": "Glad to hear that!"
+  }
+]
+

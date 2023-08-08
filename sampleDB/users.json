@@ -1,0 +1,24 @@
+[
+  {
+    "_id": "user1",
+    "name": "John Doe",
+    "email": "john.doe@example.com",
+    "age": 30,
+    "location": "New York"
+  },
+  {
+    "_id": "user2",
+    "name": "Jane Smith",
+    "email": "jane.smith@example.com",
+    "age": 25,
+    "location": "Los Angeles"
+  },
+  {
+    "_id": "user3",
+    "name": "Michael Johnson",
+    "email": "michael.johnson@example.com",
+    "age": 28,
+    "location": "Chicago"
+  }
+]
+

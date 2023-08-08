@@ -1,0 +1,21 @@
+[
+  {
+    "_id": "post1",
+    "userId": "user1",
+    "title": "First Post",
+    "content": "This is the content of the first post."
+  },
+  {
+    "_id": "post2",
+    "userId": "user1",
+    "title": "Second Post",
+    "content": "This is the content of the second post."
+  },
+  {
+    "_id": "post3",
+    "userId": "user2",
+    "title": "Awesome Day",
+    "content": "Had an awesome day today!"
+  }
+]
+

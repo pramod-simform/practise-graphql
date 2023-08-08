@@ -1,0 +1,18 @@
+[
+  {
+    "_id": "like1",
+    "userId": "user1",
+    "postId": "post1"
+  },
+  {
+    "_id": "like2",
+    "userId": "user2",
+    "postId": "post1"
+  },
+  {
+    "_id": "like3",
+    "userId": "user3",
+    "postId": "post2"
+  }
+]
+
