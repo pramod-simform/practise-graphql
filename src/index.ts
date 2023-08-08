@@ -1,6 +1,7 @@
 import { ApolloServer } from '@apollo/server';
 import { startStandaloneServer } from '@apollo/server/standalone';
 import createConnection from './db/connection.js';
+import { MutationTypeDef } from './graphQl/mutations/index.mutation.js';
 
 import { QueryTypeDef } from './graphQl/queries/index.query.js';
 import { Resolvers } from './graphQl/resolvers/index.resolver.js';
@@ -17,7 +18,7 @@ const resolvers = {
 };
 
 const server = new ApolloServer({
-  typeDefs: [QueryTypeDef, NodeTypeDef, UserTypeDef, PostTypeDef, CommentTypeDef, LikeTypeDef],
+  typeDefs: [QueryTypeDef, MutationTypeDef, NodeTypeDef, UserTypeDef, PostTypeDef, CommentTypeDef, LikeTypeDef],
   resolvers,
 });
 
