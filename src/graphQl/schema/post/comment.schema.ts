@@ -1,6 +1,6 @@
 export const CommentTypeDef = `
   type Comment implements Node {
-    id: ID!
+    _id: ID!
     userId: ID!
     postId: ID!
     content: String!

@@ -1,5 +1,5 @@
 export const NodeTypeDef = `
   interface Node {
-    id: ID!
+    _id: ID!
   }
 `;

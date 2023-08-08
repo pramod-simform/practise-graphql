@@ -1,6 +1,6 @@
 export const LikeTypeDef = `
   type Like implements Node {
-    id: ID!
+    _id: ID!
     userId: ID!
     postId: ID!
     user: User!
