@@ -1,7 +1,7 @@
-import { CreateCommentMutation } from "./mutations/comment.mutation.js";
-import { CreateLikeMutation } from "./mutations/like.mutation.js";
-import { CreatePostMutation } from "./mutations/post.mutation.js";
-import { CreateUserMutation } from "./mutations/user.mutation.js";
+import { CommentMutations } from "./mutations/comment.mutation.js";
+import { LikeMutations } from "./mutations/like.mutation.js";
+import { PostMutations } from "./mutations/post.mutation.js";
+import { UserMutations } from "./mutations/user.mutation.js";
 import {
   GetCommentByIdResolver,
   GetCommentFieldsResolver,
@@ -27,10 +27,10 @@ export const Resolvers = {
     ...GetLikeByIdResolver,
   },
   Mutation: {
-    ...CreateUserMutation,
-    ...CreatePostMutation,
-    ...CreateCommentMutation,
-    ...CreateLikeMutation,
+    ...UserMutations,
+    ...PostMutations,
+    ...CommentMutations,
+    ...LikeMutations,
   },
   ...GetUserFieldsResolver,
   ...GetPostFieldsResolver,

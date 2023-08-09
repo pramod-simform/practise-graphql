@@ -26,14 +26,14 @@ export const createLike = async ({ userId, postId }: ILike): Promise<ILike> => {
   return LikeObj.save();
 };
 
-export const updateLike = async (updateBody: ILike): Promise<ILike | null> => {
+export const updateLike = async (
+  updateBody: ILike
+): Promise<Boolean | null> => {
   const { _id } = updateBody;
 
   const Like = await LikeModel.findById(_id);
   if (Like) {
-    Object.assign(Like, updateBody);
-
-    return Like.save();
+    return !!(await LikeModel.deleteOne({ _id }, { lean: true }));
   }
   return null;
 };
