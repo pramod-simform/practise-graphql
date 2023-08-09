@@ -24,3 +24,6 @@
 **I have also attached the sample db folder for start the app first time. I have also created a db seeder. We just need to create a env file and add the DB_URL there. Please find the seeder command below:**
 
 `npm run db:seed`
+
+
+**I have attached a sample env file (.env.example). Here from you can create your custom original env file.**
