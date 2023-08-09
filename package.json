@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "compile": "tsc",
     "start": "npm run compile && node ./dist/index.js",
-    "dev": "npx tsx src/index.ts"
+    "dev": "npx tsx src/index.ts",
+    "db:seed": "npm run compile && node ./dist/db/seed/seeder.js"
   },
   "keywords": [],
   "author": "",
@@ -22,6 +23,7 @@
   },
   "dependencies": {
     "@apollo/server": "^4.8.1",
+    "dotenv": "^16.3.1",
     "graphql": "^16.7.1",
     "mongoose": "^7.4.1",
     "uuid": "^9.0.0"
