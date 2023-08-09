@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from "uuid";
 
-import { ILike } from "../interfaces/like.interface.js";
+import { ILikeRequest as ILike } from "../../interfaces/like.interface.js";
 import LikeModel from "../models/likes.model.js";
 
 export const getLikeDetails = async ({ where }: { where: any }) => {

@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from "uuid";
 
-import { IComment } from "../interfaces/comment.interface.js";
+import { ICommentRequest as IComment } from "../../interfaces/comment.interface.js";
 import CommentModel from "../models/comment.model.js";
 
 export const getCommentDetails = async ({ where }: { where: any }) => {

@@ -1,21 +1,26 @@
-import { Schema, model, connect } from "mongoose";
+import { Document, Model, model, Schema } from "mongoose";
 import { IUser } from "../interfaces/user.interface.js";
 
-const UserSchema = new Schema<IUser>({
-  _id: { type: String, required: true },
-  name: { type: String, required: true },
-  email: { type: String, required: true },
-  age: { type: Number, required: true },
-  location: { type: String, required: false },
-}, {
-  collection: "users",
-  timestamps: {
-    createdAt: "createdAt",
-    updatedAt: "updatedAt",
-  },
-  _id: false
-});
+export type UserDocument = IUser & Document;
 
-const UserModel = model<IUser>("User", UserSchema);
+const UserSchema = new Schema<UserDocument>(
+  {
+    _id: { type: String, required: true },
+    name: { type: String, required: true },
+    email: { type: String, required: true },
+    age: { type: Number, required: true },
+    location: { type: String, required: false },
+  },
+  {
+    collection: "users",
+    timestamps: {
+      createdAt: "createdAt",
+      updatedAt: "updatedAt",
+    },
+    _id: false,
+  }
+);
+
+const UserModel: Model<UserDocument> = model<UserDocument>("User", UserSchema);
 
 export default UserModel;

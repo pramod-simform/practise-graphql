@@ -1,4 +1,4 @@
-import { ILike } from "../../../db/interfaces/like.interface.js";
+import { ILikeRequest as ILike } from "../../../interfaces/like.interface.js";
 import { createLike } from "../../../db/services/like.service.js";
 
 export const CreateLikeMutation = {

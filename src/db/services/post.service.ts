@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from "uuid";
 
-import { IPost } from "../interfaces/post.interface.js";
+import { IPostRequest as IPost } from "../../interfaces/post.interface.js";
 import PostModel from "../models/posts.model.js";
 
 export const getPostDetails = async ({ where }: { where: any }) => {

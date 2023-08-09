@@ -1,8 +1,10 @@
-import { model, Schema } from "mongoose";
+import { model, Schema, Document, Model } from "mongoose";
 import { IComment } from "../interfaces/comment.interface.js";
 
-const CommentSchema = new Schema<IComment>({
-  _id: { type: String, required: true },
+export type CommentDocument = IComment & Document;
+
+const CommentSchema = new Schema<CommentDocument>({
+  _id: { type: String, required: true }, // Use your custom _id field
   userId: { type: String, required: true },
   postId: { type: String, required: true },
   content: { type: String, required: true },
@@ -12,9 +14,9 @@ const CommentSchema = new Schema<IComment>({
     createdAt: "createdAt",
     updatedAt: "updatedAt",
   },
-  _id: false
+  _id: false // Disable auto-generation of MongoDB _id
 });
 
-const CommentModel = model<IComment>("Comment", CommentSchema);
+const CommentModel: Model<CommentDocument> = model<CommentDocument>("Comment", CommentSchema);
 
 export default CommentModel;

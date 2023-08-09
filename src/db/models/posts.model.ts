@@ -1,20 +1,25 @@
-import { model, Schema } from "mongoose";
+import { Document, Model, model, Schema } from "mongoose";
 import { IPost } from "../interfaces/post.interface.js";
 
-const PostSchema = new Schema<IPost>({
-  _id: { type: String, required: true },
-  userId: { type: String, required: true },
-  title: { type: String, required: true },
-  content: { type: String, required: false },
-}, {
-  collection: "posts",
-  timestamps: {
-    createdAt: "createdAt",
-    updatedAt: "updatedAt",
-  },
-  _id: false
-});
+export type PostDocument = IPost & Document;
 
-const PostModel = model<IPost>("Post", PostSchema);
+const PostSchema = new Schema<PostDocument>(
+  {
+    _id: { type: String, required: true },
+    userId: { type: String, required: true },
+    title: { type: String, required: true },
+    content: { type: String, required: false },
+  },
+  {
+    collection: "posts",
+    timestamps: {
+      createdAt: "createdAt",
+      updatedAt: "updatedAt",
+    },
+    _id: false,
+  }
+);
+
+const PostModel: Model<PostDocument> = model<PostDocument>("Post", PostSchema);
 
 export default PostModel;

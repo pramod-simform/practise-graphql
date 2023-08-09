@@ -1,4 +1,4 @@
-import { IComment } from "../../../db/interfaces/comment.interface.js";
+import { ICommentRequest as IComment } from "../../../interfaces/comment.interface.js";
 import { createComment } from "../../../db/services/comment.service.js";
 
 export const CreateCommentMutation = {

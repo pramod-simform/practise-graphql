@@ -1,4 +1,4 @@
-import { IUser } from "../../../db/interfaces/user.interface.js";
+import { IUserRequest as IUser } from "../../../interfaces/user.interface.js";
 import { createUser } from "../../../db/services/user.service.js";
 
 export const CreateUserMutation = {

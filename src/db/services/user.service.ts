@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from "uuid";
 
-import { IUser } from "../interfaces/user.interface.js";
+import { IUserRequest as IUser } from "../../interfaces/user.interface.js";
 import UserModel from "../models/user.model.js";
 
 
