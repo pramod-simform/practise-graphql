@@ -11,6 +11,10 @@ import {
   GetLikeFieldsResolver,
 } from "./queries/like.resolver.js";
 import {
+  GetNodeByIdResolver,
+  NodeResolverType,
+} from "./queries/node.resolver.js";
+import {
   GetPostByIdResolver,
   GetPostFieldsResolver,
 } from "./queries/post.resolver.js";
@@ -25,6 +29,7 @@ export const Resolvers = {
     ...GetPostByIdResolver,
     ...GetCommentByIdResolver,
     ...GetLikeByIdResolver,
+    ...GetNodeByIdResolver,
   },
   Mutation: {
     ...UserMutations,
@@ -36,4 +41,5 @@ export const Resolvers = {
   ...GetPostFieldsResolver,
   ...GetCommentFieldsResolver,
   ...GetLikeFieldsResolver,
+  ...NodeResolverType,
 };
