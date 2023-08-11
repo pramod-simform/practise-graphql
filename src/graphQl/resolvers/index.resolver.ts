@@ -22,6 +22,7 @@ import {
   GetUserByIdResolver,
   GetUserFieldsResolver,
 } from "./queries/user.resolver.js";
+import UserSubscriptionResolvers from "./subscriptions/index.js";
 
 export const Resolvers = {
   Query: {
@@ -31,12 +32,18 @@ export const Resolvers = {
     ...GetLikeByIdResolver,
     ...GetNodeByIdResolver,
   },
+
   Mutation: {
     ...UserMutations,
     ...PostMutations,
     ...CommentMutations,
     ...LikeMutations,
   },
+
+  Subscription: {
+    ...UserSubscriptionResolvers,
+  },
+
   ...GetUserFieldsResolver,
   ...GetPostFieldsResolver,
   ...GetCommentFieldsResolver,
