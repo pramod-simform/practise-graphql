@@ -12,18 +12,11 @@ import { useServer } from "graphql-ws/lib/use/ws";
 import { WebSocketServer } from "ws";
 
 import createConnection from "./db/connection.js";
-import { MutationTypeDef } from "./graphQl/mutations/index.mutation.js";
 
 import { expressMiddleware } from "@apollo/server/express4";
-import { QueryTypeDef } from "./graphQl/queries/index.query.js";
 import { Resolvers } from "./graphQl/resolvers/index.resolver.js";
-import { NodeTypeDef } from "./graphQl/schema/node.schema.js";
-import { CommentTypeDef } from "./graphQl/schema/post/comment.schema.js";
-import { LikeTypeDef } from "./graphQl/schema/post/like.schema.js";
-import { PostTypeDef } from "./graphQl/schema/post/post.schema.js";
-import { UserTypeDef } from "./graphQl/schema/user/user.schema.js";
-import { SubscriptionTypeDef } from "./graphQl/subscriptions/index.subscription.js";
 
+import TypeDefs from "./graphQl/schema/index.schema.js";
 import "./utils/pubSub.utils.js";
 
 const resolvers = {
@@ -31,16 +24,7 @@ const resolvers = {
 };
 
 const schema = makeExecutableSchema({
-  typeDefs: [
-    QueryTypeDef,
-    MutationTypeDef,
-    NodeTypeDef,
-    UserTypeDef,
-    PostTypeDef,
-    CommentTypeDef,
-    LikeTypeDef,
-    SubscriptionTypeDef,
-  ],
+  typeDefs: TypeDefs,
   resolvers,
 });
 

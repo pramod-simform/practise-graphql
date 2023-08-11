@@ -22,6 +22,11 @@ import {
   GetUserByIdResolver,
   GetUserFieldsResolver,
 } from "./queries/user.resolver.js";
+import {
+  BookResolver,
+  BookResolverType,
+  GetColorBookFieldsResolver,
+} from "./queries/book.resolver.js";
 import UserSubscriptionResolvers from "./subscriptions/index.js";
 
 export const Resolvers = {
@@ -31,6 +36,7 @@ export const Resolvers = {
     ...GetCommentByIdResolver,
     ...GetLikeByIdResolver,
     ...GetNodeByIdResolver,
+    ...BookResolver,
   },
 
   Mutation: {
@@ -49,4 +55,6 @@ export const Resolvers = {
   ...GetCommentFieldsResolver,
   ...GetLikeFieldsResolver,
   ...NodeResolverType,
+  ...GetColorBookFieldsResolver,
+  ...BookResolverType,
 };

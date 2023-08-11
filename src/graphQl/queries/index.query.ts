@@ -5,5 +5,6 @@ export const QueryTypeDef = `
     getPostById(id: ID!): Post
     getCommentById(id: ID!): Comment
     getLikeById(id: ID!): Like
+    getBooks: [AllBooks!]!
   }
 `;
