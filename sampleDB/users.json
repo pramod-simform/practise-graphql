@@ -4,7 +4,11 @@
     "name": "John Doe",
     "email": "john.doe@example.com",
     "age": 30,
-    "location": "New York"
+    "location": "New York",
+    "contact_details": {
+      "country_code": "+91",
+      "phone_number": "1111111111"
+    }
   },
   {
     "_id": "user2",
@@ -21,4 +25,3 @@
     "location": "Chicago"
   }
 ]
-

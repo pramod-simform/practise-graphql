@@ -28,6 +28,7 @@ import {
   GetColorBookFieldsResolver,
 } from "./queries/book.resolver.js";
 import UserSubscriptionResolvers from "./subscriptions/index.js";
+import CustomScalers from "./scalers/index.scaler.js";
 
 export const Resolvers = {
   Query: {
@@ -57,4 +58,6 @@ export const Resolvers = {
   ...NodeResolverType,
   ...GetColorBookFieldsResolver,
   ...BookResolverType,
+  
+  ...CustomScalers
 };

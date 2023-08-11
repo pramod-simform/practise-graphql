@@ -8,9 +8,11 @@ import { NodeTypeDef } from "./node.schema.js";
 import { CommentTypeDef } from "./post/comment.schema.js";
 import { LikeTypeDef } from "./post/like.schema.js";
 import { PostTypeDef } from "./post/post.schema.js";
+import { ScalerIncludesTypeDefs } from "./scalerIncludes.schema.js";
 import { UserTypeDef } from "./user/user.schema.js";
 
 const TypeDefs = [
+  ScalerIncludesTypeDefs,
   QueryTypeDef,
   MutationTypeDef,
   NodeTypeDef,

@@ -6,5 +6,7 @@ export const UserTypeDef = `
     age: Int!
     location: String!
     posts: [Post!]!
+    createdAt: Date
+    contactDetails: JSON 
   }
 `;
