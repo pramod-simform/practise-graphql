@@ -1,0 +1,27 @@
+[
+  {
+    "id": "1",
+    "title": "Colorful Adventures",
+    "authorId": "user1",
+    "color": "Blue"
+  },
+  {
+    "id": "2",
+    "title": "Rainbow Adventures",
+    "authorId": "user2",
+    "color": "Multicolor"
+  },
+  {
+    "id": "3",
+    "title": "Sunny Day",
+    "authorId": "user1",
+    "color": "Yellow"
+  },
+  {
+    "id": "4",
+    "title": "Ocean Waves",
+    "authorId": "user3",
+    "color": "Blue"
+  }
+]
+

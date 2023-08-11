@@ -18,10 +18,6 @@ const __dirname = path.dirname(new URL(import.meta.url).pathname);
 
 const jsonFilesDir = path.join(__dirname, "../../../sampleDB");
 
-function changeModelNameCase(modelName: string) {
-  return modelName.slice(0, 1).toLocaleUpperCase() + modelName.slice(1, -1);
-}
-
 // Function to read and seed JSON files
 async function seedJsonFiles() {
   try {

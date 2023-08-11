@@ -1,0 +1,27 @@
+[
+  {
+    "id": "1",
+    "title": "Mathematics Textbook",
+    "authorId": "user1",
+    "subject": "Mathematics"
+  },
+  {
+    "id": "2",
+    "title": "Science Basics",
+    "authorId": "user2",
+    "subject": "Science"
+  },
+  {
+    "id": "3",
+    "title": "History Chronicles",
+    "authorId": "user1",
+    "subject": "History"
+  },
+  {
+    "id": "4",
+    "title": "Programming Fundamentals",
+    "authorId": "user3",
+    "subject": "Computer Science"
+  }
+]
+
