@@ -38,6 +38,12 @@ export const Resolvers = {
     ...GetLikeByIdResolver,
     ...GetNodeByIdResolver,
     ...BookResolver,
+    hello() {
+      return "hello world";
+    },
+    helloDate() {
+      return new Date();
+    },
   },
 
   Mutation: {
@@ -58,6 +64,6 @@ export const Resolvers = {
   ...NodeResolverType,
   ...GetColorBookFieldsResolver,
   ...BookResolverType,
-  
-  ...CustomScalers
+
+  ...CustomScalers,
 };

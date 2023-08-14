@@ -16,6 +16,7 @@
   "type": "module",
   "devDependencies": {
     "@types/cors": "^2.8.13",
+    "@types/moment": "^2.13.0",
     "@types/mongoose": "^5.11.97",
     "@types/node": "^20.4.4",
     "@types/uuid": "^9.0.2",
@@ -35,6 +36,7 @@
     "graphql-subscriptions": "^2.0.0",
     "graphql-type-json": "^0.3.2",
     "graphql-ws": "^5.14.0",
+    "moment": "^2.29.4",
     "mongoose": "^7.4.1",
     "uuid": "^9.0.0",
     "ws": "^8.13.0"

@@ -16,17 +16,31 @@ import createConnection from "./db/connection.js";
 import { expressMiddleware } from "@apollo/server/express4";
 import { Resolvers } from "./graphQl/resolvers/index.resolver.js";
 
+import UppercaseDirective from "./graphQl/schema/customDirectives/uppercase.directive.js";
+import { dateDirectiveTransformer } from "./graphQl/schema/customDirectives/dateFormat.directive.js";
+
 import TypeDefs from "./graphQl/schema/index.schema.js";
+
 import "./utils/pubSub.utils.js";
 
 const resolvers = {
   ...Resolvers,
 };
 
-const schema = makeExecutableSchema({
+const subgraphSchema = makeExecutableSchema({
   typeDefs: TypeDefs,
   resolvers,
 });
+
+/**
+ * Custom directives
+ */
+const schema = [UppercaseDirective("upper"), dateDirectiveTransformer].reduce(
+  (curSchema, transformer) => {
+    return transformer(curSchema);
+  },
+  subgraphSchema
+);
 
 createConnection();
 
@@ -49,7 +63,7 @@ const serverCleanup = useServer(
   {
     schema, // As before, ctx is the graphql-ws Context where connectionParams live.
     onConnect: async (ctx) => {
-      console.log("WS Connected")
+      console.log("WS Connected");
     },
     onDisconnect() {
       console.log("WS Disconnected!");
@@ -66,7 +80,7 @@ const server = new ApolloServer({
 
     // Proper shutdown for the WebSocket server.
     {
-      async serverWillStart() { 
+      async serverWillStart() {
         return {
           async drainServer() {
             await serverCleanup.dispose();

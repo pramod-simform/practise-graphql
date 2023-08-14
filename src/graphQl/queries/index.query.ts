@@ -6,5 +6,7 @@ export const QueryTypeDef = `
     getCommentById(id: ID!): Comment
     getLikeById(id: ID!): Like
     getBooks: [AllBooks!]!
+    hello: String @upper
+    helloDate: String @date(format: "DD/MM/YYYY")
   }
 `;

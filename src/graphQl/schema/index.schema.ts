@@ -4,6 +4,8 @@ import { SubscriptionTypeDef } from "../subscriptions/index.subscription.js";
 import { BookTypeDef } from "./book/book.schema.js";
 import { ColorBookTypeDef } from "./book/colorBook.schema.js";
 import { TextBookTypeDef } from "./book/textBook.schema.js";
+import { dateDirectiveTypeDefs } from "./customDirectives/dateFormat.directive.js";
+import { UpperCaseTypeDefs } from "./customDirectives/uppercase.directive.js";
 import { NodeTypeDef } from "./node.schema.js";
 import { CommentTypeDef } from "./post/comment.schema.js";
 import { LikeTypeDef } from "./post/like.schema.js";
@@ -12,6 +14,8 @@ import { ScalerIncludesTypeDefs } from "./scalerIncludes.schema.js";
 import { UserTypeDef } from "./user/user.schema.js";
 
 const TypeDefs = [
+  UpperCaseTypeDefs,
+  dateDirectiveTypeDefs,
   ScalerIncludesTypeDefs,
   QueryTypeDef,
   MutationTypeDef,
