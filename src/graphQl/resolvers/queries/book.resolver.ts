@@ -3,7 +3,7 @@ import { getTextBooks } from "../../../db/services/textbook.service.js";
 import { getUserDetails } from "../../../db/services/user.service.js";
 
 export const BookResolver = {
-  getBooks: async (_: any, args: any) => {
+  getBooks: async () => {
     const TextBooks = await getTextBooks({
       where: {},
     });

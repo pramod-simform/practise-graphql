@@ -1,5 +1,4 @@
-import { getCommentDetails, getComments } from "../../../db/services/comment.service.js";
-import { getLikes } from "../../../db/services/like.service.js";
+import { getCommentDetails } from "../../../db/services/comment.service.js";
 import { getPostDetails } from "../../../db/services/post.service.js";
 import { getUserDetails } from "../../../db/services/user.service.js";
 
