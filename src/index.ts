@@ -16,8 +16,8 @@ import createConnection from "./db/connection.js";
 import { expressMiddleware } from "@apollo/server/express4";
 import { Resolvers } from "./graphQl/resolvers/index.resolver.js";
 
-import UppercaseDirective from "./graphQl/schema/customDirectives/uppercase.directive.js";
 import { dateDirectiveTransformer } from "./graphQl/schema/customDirectives/dateFormat.directive.js";
+import UppercaseDirective from "./graphQl/schema/customDirectives/uppercase.directive.js";
 
 import TypeDefs from "./graphQl/schema/index.schema.js";
 
@@ -84,6 +84,34 @@ const server = new ApolloServer({
         return {
           async drainServer() {
             await serverCleanup.dispose();
+          },
+        };
+      },
+    },
+    {
+      /**
+       * Filtering the response of the get books query.
+       * There we are getting some blank objects due to union.
+       * So, we have filtered them and update the response.
+       */
+      async requestDidStart() {
+        return {
+          async willSendResponse(requestContext) {
+            const { response } = requestContext;
+            if (
+              response.body.kind === "single" &&
+              response.body.singleResult?.data
+            ) {
+              if (
+                response.body.singleResult?.data?.getBooks &&
+                Array.isArray(response.body.singleResult?.data?.getBooks)
+              ) {
+                response.body.singleResult.data.getBooks =
+                  response.body.singleResult.data.getBooks.filter(
+                    (row: any) => row._id
+                  );
+              }
+            }
           },
         };
       },
