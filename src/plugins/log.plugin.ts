@@ -1,8 +1,12 @@
-import { ApolloServerPlugin } from "@apollo/server";
+import { ApolloServerPlugin, GraphQLRequest } from "@apollo/server";
 import { GraphQLError } from "graphql";
 import { createLog, fetchLog, updateLog } from "../db/services/log.service.js";
 import { IContext } from "../interfaces/context.interface.js";
 import { ILog } from "../interfaces/logs.interface.js";
+
+interface DynamicObject {
+  [key: string]: any;
+}
 
 const LogPlugin: ApolloServerPlugin<IContext> = {
   async requestDidStart() {
@@ -14,30 +18,7 @@ const LogPlugin: ApolloServerPlugin<IContext> = {
         let responseBody: any = {};
         const endTime = +new Date();
 
-        const operationName =
-          request.http?.body &&
-          request.http.body &&
-          typeof request.http.body === "object" &&
-          "operationName" in request.http.body
-            ? request.http.body.operationName
-            : "";
-
-        if (
-          response.body.kind === "single" &&
-          response.body.singleResult?.data
-        ) {
-          if (
-            response.body.singleResult?.data?.getBooks &&
-            Array.isArray(response.body.singleResult?.data?.getBooks)
-          ) {
-            response.body.singleResult.data.getBooks =
-              response.body.singleResult.data.getBooks.filter(
-                (row: any) => row._id
-              );
-          }
-
-          responseBody = response.body.singleResult?.data;
-        }
+        const operationName = _getFieldValue(request, "operationName");
 
         if (
           response.body.kind === "single" &&
@@ -59,6 +40,7 @@ const LogPlugin: ApolloServerPlugin<IContext> = {
               _id: id,
             },
           });
+
           if (log) {
             const updateBody: ILog = {
               response: responseBody,
@@ -83,13 +65,7 @@ const LogPlugin: ApolloServerPlugin<IContext> = {
 
         const endTime = +new Date();
 
-        const operationName =
-          request.http?.body &&
-          request.http.body &&
-          typeof request.http.body === "object" &&
-          "operationName" in request.http.body
-            ? request.http.body.operationName
-            : "";
+        const operationName = _getFieldValue(request, "operationName");
 
         if (operationName !== "IntrospectionQuery" && errors.length) {
           let formattedErrorCodes = "";
@@ -135,22 +111,10 @@ const LogPlugin: ApolloServerPlugin<IContext> = {
         const { id } = contextValue;
         const { query } = request;
 
-        const operationName =
-          request.http?.body &&
-          request.http.body &&
-          typeof request.http.body === "object" &&
-          "operationName" in request.http.body
-            ? request.http.body.operationName
-            : "";
+        const operationName = _getFieldValue(request, "operationName");
 
         if (operationName !== "IntrospectionQuery") {
-          const variables =
-            request.http?.body &&
-            request.http.body &&
-            typeof request.http.body === "object" &&
-            "variables" in request.http.body
-              ? request.http.body.variables
-              : "";
+          const variables = _getFieldValue(request, "variables");
 
           const headers = request.http?.headers;
 
@@ -167,5 +131,11 @@ const LogPlugin: ApolloServerPlugin<IContext> = {
     };
   },
 };
+
+const _getFieldValue = (request: GraphQLRequest, fieldName: string) => {
+  var requestBody = request.http?.body as DynamicObject;
+  const fieldValue = requestBody[fieldName];
+  return fieldValue;
+}
 
 export default LogPlugin;
