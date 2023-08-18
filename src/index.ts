@@ -7,19 +7,25 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import express from "express";
 
-import { makeExecutableSchema } from "@graphql-tools/schema";
+import { expressMiddleware } from "@apollo/server/express4";
 import { useServer } from "graphql-ws/lib/use/ws";
+import { v4 as uuidv4 } from "uuid";
 import { WebSocketServer } from "ws";
+
+import { makeExecutableSchema } from "@graphql-tools/schema";
 
 import createConnection from "./db/connection.js";
 
-import { expressMiddleware } from "@apollo/server/express4";
 import { Resolvers } from "./graphQl/resolvers/index.resolver.js";
 
 import { dateDirectiveTransformer } from "./graphQl/schema/customDirectives/dateFormat.directive.js";
 import UppercaseDirective from "./graphQl/schema/customDirectives/uppercase.directive.js";
 
 import TypeDefs from "./graphQl/schema/index.schema.js";
+
+import { IContext } from "./interfaces/context.interface.js";
+
+import LogPlugin from "./plugins/log.plugin.js";
 
 import "./utils/pubSub.utils.js";
 
@@ -72,8 +78,22 @@ const serverCleanup = useServer(
   wsServer
 );
 
-const server = new ApolloServer({
+const server = new ApolloServer<IContext>({
   schema,
+  includeStacktraceInErrorResponses: false,
+  formatError: (formattedError, error) => {
+    // Return a different error message
+    if (formattedError?.extensions?.code === "FORBIDDEN") {
+      return {
+        ...formattedError,
+        message: "Your query doesn't match the schema. Try double-checking it!",
+      };
+    }
+
+    // Otherwise return the formatted error. This error can also
+    // be manipulated in other ways, as long as it's returned.
+    return formattedError;
+  },
   plugins: [
     // Proper shutdown for the HTTP server.
     ApolloServerPluginDrainHttpServer({ httpServer }),
@@ -116,6 +136,7 @@ const server = new ApolloServer({
         };
       },
     },
+    LogPlugin,
   ],
 });
 
@@ -128,14 +149,20 @@ app.use(
   bodyParser.json(),
   // expressMiddleware accepts the same arguments:
   // an Apollo Server instance and optional configuration options
-  expressMiddleware(server)
+  expressMiddleware(server, {
+    context: async () => {
+      return {
+        id: uuidv4(),
+      };
+    },
+  })
 );
 
 // Modified server startup
 await new Promise<void>((resolve) =>
   httpServer.listen({ port: 4000 }, () => {
-    console.log(`🚀 Server ready at http://localhost:4000/`);
-    console.log(`🚀 Subscription endpoint ready at ws://localhost:4000/`);
+    console.log(`Server ready at http://localhost:4000/`);
+    console.log(`Subscription endpoint ready at ws://localhost:4000/`);
 
     resolve();
   })
