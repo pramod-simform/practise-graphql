@@ -39,12 +39,6 @@ export const Resolvers = {
     ...GetLikeByIdResolver,
     ...GetNodeByIdResolver,
     ...BookResolver,
-    hello() {
-      return "hello world";
-    },
-    helloDate() {
-      return new Date();
-    },
     ...TestResolver
   },
 

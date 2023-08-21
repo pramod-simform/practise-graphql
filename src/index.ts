@@ -3,6 +3,11 @@ import { createServer } from "http";
 
 import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHttpServer";
 
+import {
+  constraintDirective,
+  constraintDirectiveTypeDefs
+} from "graphql-constraint-directive";
+
 import bodyParser from "body-parser";
 import cors from "cors";
 import express from "express";
@@ -34,19 +39,20 @@ const resolvers = {
 };
 
 const subgraphSchema = makeExecutableSchema({
-  typeDefs: TypeDefs,
+  typeDefs: [constraintDirectiveTypeDefs, ...TypeDefs],
   resolvers,
 });
 
 /**
  * Custom directives
  */
-const schema = [UppercaseDirective("upper"), dateDirectiveTransformer].reduce(
-  (curSchema, transformer) => {
-    return transformer(curSchema);
-  },
-  subgraphSchema
-);
+const schema = [
+  UppercaseDirective("upper"),
+  dateDirectiveTransformer,
+  constraintDirective(),
+].reduce((curSchema, transformer) => {
+  return transformer(curSchema);
+}, subgraphSchema);
 
 createConnection();
 
@@ -97,6 +103,8 @@ const server = new ApolloServer<IContext>({
   plugins: [
     // Proper shutdown for the HTTP server.
     ApolloServerPluginDrainHttpServer({ httpServer }),
+
+    // createEnvelopQueryValidationPlugin(),
 
     // Proper shutdown for the WebSocket server.
     {

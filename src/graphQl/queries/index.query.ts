@@ -9,5 +9,6 @@ export const QueryTypeDef = `
     hello: String @upper
     helloDate: String @date(format: "DD/MM/YYYY")
     testError: String
+    testValidation(input: UserEmailInput): User
   }
 `;

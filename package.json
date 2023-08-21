@@ -33,6 +33,7 @@
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "graphql": "^16.7.1",
+    "graphql-constraint-directive": "^5.2.0",
     "graphql-subscriptions": "^2.0.0",
     "graphql-type-json": "^0.3.2",
     "graphql-ws": "^5.14.0",
