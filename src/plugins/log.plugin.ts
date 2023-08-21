@@ -22,16 +22,9 @@ const LogPlugin: ApolloServerPlugin<IContext> = {
 
         if (
           response.body.kind === "single" &&
-          response.body.singleResult?.errors &&
-          Array.isArray(response.body.singleResult?.errors)
+          response.body.singleResult?.data
         ) {
-          response.body.singleResult.errors =
-            response.body.singleResult?.errors.map((row: any) => {
-              if (row.id) {
-                delete row.id;
-              }
-              return row;
-            });
+          responseBody = response.body.singleResult;
         }
 
         if (operationName !== "IntrospectionQuery") {
@@ -85,7 +78,6 @@ const LogPlugin: ApolloServerPlugin<IContext> = {
               _id: id,
             },
           });
-
           if (log) {
             const updateBody: ILog = {
               errorMessage: formattedErrorMessage,
@@ -93,7 +85,6 @@ const LogPlugin: ApolloServerPlugin<IContext> = {
               endTime,
               responseTime: +endTime - (log?.startTime || 0),
             };
-
             await updateLog({
               where: {
                 _id: id,
@@ -136,6 +127,6 @@ const _getFieldValue = (request: GraphQLRequest, fieldName: string) => {
   var requestBody = request.http?.body as DynamicObject;
   const fieldValue = requestBody[fieldName];
   return fieldValue;
-}
+};
 
 export default LogPlugin;
