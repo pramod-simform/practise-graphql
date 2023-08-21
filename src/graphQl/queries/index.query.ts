@@ -8,5 +8,6 @@ export const QueryTypeDef = `
     getBooks: [AllBooks!]!
     hello: String @upper
     helloDate: String @date(format: "DD/MM/YYYY")
+    testError: String
   }
 `;

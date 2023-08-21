@@ -29,6 +29,7 @@ import {
 } from "./queries/book.resolver.js";
 import UserSubscriptionResolvers from "./subscriptions/index.js";
 import CustomScalers from "./scalers/index.scaler.js";
+import { TestResolver } from "./queries/test.resolver.js";
 
 export const Resolvers = {
   Query: {
@@ -44,6 +45,7 @@ export const Resolvers = {
     helloDate() {
       return new Date();
     },
+    ...TestResolver
   },
 
   Mutation: {
