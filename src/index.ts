@@ -3,11 +3,6 @@ import { createServer } from "http";
 
 import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHttpServer";
 
-import {
-  constraintDirective,
-  constraintDirectiveTypeDefs
-} from "graphql-constraint-directive";
-
 import bodyParser from "body-parser";
 import cors from "cors";
 import express from "express";
@@ -32,27 +27,28 @@ import { IContext } from "./interfaces/context.interface.js";
 
 import LogPlugin from "./plugins/log.plugin.js";
 
+import { validateJOISchema } from "./utils/helper.js";
 import "./utils/pubSub.utils.js";
+import ValidationSchemas from "./validation/index.validation.js";
 
 const resolvers = {
   ...Resolvers,
 };
 
 const subgraphSchema = makeExecutableSchema({
-  typeDefs: [constraintDirectiveTypeDefs, ...TypeDefs],
+  typeDefs: TypeDefs,
   resolvers,
 });
 
 /**
  * Custom directives
  */
-const schema = [
-  UppercaseDirective("upper"),
-  dateDirectiveTransformer,
-  constraintDirective(),
-].reduce((curSchema, transformer) => {
-  return transformer(curSchema);
-}, subgraphSchema);
+const schema = [UppercaseDirective("upper"), dateDirectiveTransformer].reduce(
+  (curSchema, transformer) => {
+    return transformer(curSchema);
+  },
+  subgraphSchema
+);
 
 createConnection();
 
@@ -88,8 +84,10 @@ const server = new ApolloServer<IContext>({
   schema,
   includeStacktraceInErrorResponses: false,
   formatError: (formattedError, error) => {
+    const code = formattedError?.extensions?.code;
+
     // Return a different error message
-    if (formattedError?.extensions?.code === "FORBIDDEN") {
+    if (code === "FORBIDDEN") {
       return {
         ...formattedError,
         message: "Your query doesn't match the schema. Try double-checking it!",
@@ -103,8 +101,6 @@ const server = new ApolloServer<IContext>({
   plugins: [
     // Proper shutdown for the HTTP server.
     ApolloServerPluginDrainHttpServer({ httpServer }),
-
-    // createEnvelopQueryValidationPlugin(),
 
     // Proper shutdown for the WebSocket server.
     {
@@ -158,7 +154,18 @@ app.use(
   // expressMiddleware accepts the same arguments:
   // an Apollo Server instance and optional configuration options
   expressMiddleware(server, {
-    context: async () => {
+    context: async (requestContext) => {
+
+      const body = requestContext.req.body;
+      const operationName: string = requestContext.req.body?.operationName;
+      if (operationName != "IntrospectionQuery" && body?.variables?.input) {
+        const variables = body?.variables?.input;
+        let schema = ValidationSchemas[operationName];
+        if (schema) {
+          validateJOISchema(schema, variables);
+        }
+      }
+      
       return {
         id: uuidv4(),
       };
