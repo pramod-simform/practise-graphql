@@ -1,6 +1,30 @@
-import fs from "fs";
-import path from "path";
+import { GraphQLRequest } from "@apollo/server";
+import { ApolloServerErrorCode } from "@apollo/server/errors";
+import { GraphQLError } from "graphql";
+import { ObjectSchema, ValidationResult } from "joi";
 
-export const importGraphQL = (file: string) => {
-  return fs.readFileSync(path.join(__dirname, file), "utf-8");
+interface DynamicObject {
+  [key: string]: any;
+}
+
+export const validateJOISchema = (schema: ObjectSchema, data: any) => {
+  const validationRes: ValidationResult = schema.validate(data, {
+    abortEarly: true,
+    errors: {
+      label: false
+    }
+  });
+  if (validationRes.error) {
+    throw new GraphQLError(validationRes.error.message, {
+      extensions: {
+        code: ApolloServerErrorCode.BAD_USER_INPUT,
+      },
+    });
+  }
+};
+
+export const getFieldValue = (request: GraphQLRequest, fieldName: string) => {
+  var requestBody = request.http?.body as DynamicObject;
+  const fieldValue = requestBody[fieldName];
+  return fieldValue + "";
 };

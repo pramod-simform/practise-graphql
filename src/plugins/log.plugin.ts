@@ -1,8 +1,9 @@
-import { ApolloServerPlugin, GraphQLRequest } from "@apollo/server";
+import { ApolloServerPlugin } from "@apollo/server";
 import { GraphQLError } from "graphql";
 import { createLog, fetchLog, updateLog } from "../db/services/log.service.js";
 import { IContext } from "../interfaces/context.interface.js";
 import { ILog } from "../interfaces/logs.interface.js";
+import { getFieldValue } from "../utils/helper.js";
 
 interface DynamicObject {
   [key: string]: any;
@@ -18,7 +19,7 @@ const LogPlugin: ApolloServerPlugin<IContext> = {
         let responseBody: any = {};
         const endTime = +new Date();
 
-        const operationName = _getFieldValue(request, "operationName");
+        const operationName = getFieldValue(request, "operationName");
 
         if (
           response.body.kind === "single" &&
@@ -58,7 +59,7 @@ const LogPlugin: ApolloServerPlugin<IContext> = {
 
         const endTime = +new Date();
 
-        const operationName = _getFieldValue(request, "operationName");
+        const operationName = getFieldValue(request, "operationName");
 
         if (operationName !== "IntrospectionQuery" && errors.length) {
           let formattedErrorCodes = "";
@@ -102,10 +103,10 @@ const LogPlugin: ApolloServerPlugin<IContext> = {
         const { id } = contextValue;
         const { query } = request;
 
-        const operationName = _getFieldValue(request, "operationName");
+        const operationName = getFieldValue(request, "operationName");
 
         if (operationName !== "IntrospectionQuery") {
-          const variables = _getFieldValue(request, "variables");
+          const variables = getFieldValue(request, "variables");
 
           const headers = request.http?.headers;
 
@@ -121,12 +122,6 @@ const LogPlugin: ApolloServerPlugin<IContext> = {
       },
     };
   },
-};
-
-const _getFieldValue = (request: GraphQLRequest, fieldName: string) => {
-  var requestBody = request.http?.body as DynamicObject;
-  const fieldValue = requestBody[fieldName];
-  return fieldValue;
 };
 
 export default LogPlugin;
