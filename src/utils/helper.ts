@@ -11,8 +11,8 @@ export const validateJOISchema = (schema: ObjectSchema, data: any) => {
   const validationRes: ValidationResult = schema.validate(data, {
     abortEarly: true,
     errors: {
-      label: false
-    }
+      label: false,
+    },
   });
   if (validationRes.error) {
     throw new GraphQLError(validationRes.error.message, {

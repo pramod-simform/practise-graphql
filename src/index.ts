@@ -14,6 +14,8 @@ import { WebSocketServer } from "ws";
 
 import { makeExecutableSchema } from "@graphql-tools/schema";
 
+import { decodeJWTToken } from "./utils/jwt.js";
+
 import createConnection from "./db/connection.js";
 
 import { Resolvers } from "./graphQl/resolvers/index.resolver.js";
@@ -155,8 +157,11 @@ app.use(
   // an Apollo Server instance and optional configuration options
   expressMiddleware(server, {
     context: async (requestContext) => {
-
       const body = requestContext.req.body;
+      const token = requestContext.req.headers.authorization || "";
+
+      let tokenData: any;
+
       const operationName: string = requestContext.req.body?.operationName;
       if (operationName != "IntrospectionQuery" && body?.variables?.input) {
         const variables = body?.variables?.input;
@@ -165,9 +170,12 @@ app.use(
           validateJOISchema(schema, variables);
         }
       }
-      
+
+      tokenData = decodeJWTToken(token);
+
       return {
         id: uuidv4(),
+        tokenData,
       };
     },
   })
