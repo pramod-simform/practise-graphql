@@ -28,6 +28,6 @@
 
 **I have attached a sample env file (.env.example). Here from you can create your custom original env file.**
 
-**For authentication, please add the Authorization in the header and generate. I have added sample key in the env file. If you want then change it in the original env file. Also if you want then I have added the generate token util method in the file. You can generate the token manually and send it in the header. Please find the sample token below:**
+**For authentication, please add the Authorization in the header. I have added sample key in the env file. If you want then copy it to the original env file. Also if you want to generate the new token then I have also added the generateToken util method in the utils file. You can generate the token manually and send it in the header. Please find the sample token below:**
 
 `Authorization: eyJhbGciOiJIUzI1NiJ9.eyJJc3N1ZXIiOiJJc3N1ZXIiLCJJc3N1ZWQgQXQiOiIyMDIzLTA4LTI0VDEyOjA5OjAwLjM0N1oiLCJFeHBpcmF0aW9uIjoiMjAyMy0wOC0yNFQxMjowOTowMC4zNDdaIiwiVXNlcm5hbWUiOiJKYXZhSW5Vc2UiLCJSb2xlIjoiQWRtaW4ifQ.0EMtRIuPR8kRs7ZBuMfTSV6Zl4yjuhFl_-6IhLI6Iq4`
