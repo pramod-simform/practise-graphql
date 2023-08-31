@@ -3,33 +3,36 @@ import { LikeMutations } from "./mutations/like.mutation.js";
 import { PostMutations } from "./mutations/post.mutation.js";
 import { UserMutations } from "./mutations/user.mutation.js";
 import {
+  BookResolver,
+  BookResolverType,
+  GetColorBookFieldsResolver
+} from "./queries/book.resolver.js";
+import {
   GetCommentByIdResolver,
-  GetCommentFieldsResolver,
+  GetCommentFieldsResolver
 } from "./queries/comment.resolver.js";
 import {
   GetLikeByIdResolver,
-  GetLikeFieldsResolver,
+  GetLikeFieldsResolver
 } from "./queries/like.resolver.js";
 import {
   GetNodeByIdResolver,
-  NodeResolverType,
+  NodeResolverType
 } from "./queries/node.resolver.js";
+import { GetPaginationInfoResolver } from "./queries/pagination.resolver.js";
 import {
   GetPostByIdResolver,
-  GetPostFieldsResolver,
+  GetPostFieldsResolver
 } from "./queries/post.resolver.js";
 import {
-  GetUserByIdResolver,
-  GetUserFieldsResolver,
-} from "./queries/user.resolver.js";
+  TestSubQueryFieldResolver
+} from "./queries/test.resolver.js";
 import {
-  BookResolver,
-  BookResolverType,
-  GetColorBookFieldsResolver,
-} from "./queries/book.resolver.js";
-import UserSubscriptionResolvers from "./subscriptions/index.js";
+  GetUserByIdResolver,
+  GetUserFieldsResolver
+} from "./queries/user.resolver.js";
 import CustomScalers from "./scalers/index.scaler.js";
-import { TestResolver } from "./queries/test.resolver.js";
+import UserSubscriptionResolvers from "./subscriptions/index.js";
 
 export const Resolvers = {
   Query: {
@@ -39,7 +42,8 @@ export const Resolvers = {
     ...GetLikeByIdResolver,
     ...GetNodeByIdResolver,
     ...BookResolver,
-    ...TestResolver
+
+    ...GetPaginationInfoResolver,
   },
 
   Mutation: {
@@ -60,6 +64,8 @@ export const Resolvers = {
   ...NodeResolverType,
   ...GetColorBookFieldsResolver,
   ...BookResolverType,
+
+  ...TestSubQueryFieldResolver,
 
   ...CustomScalers,
 };

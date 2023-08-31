@@ -8,6 +8,7 @@ import { dateDirectiveTypeDefs } from "./customDirectives/dateFormat.directive.j
 import { UpperCaseTypeDefs } from "./customDirectives/uppercase.directive.js";
 import { UserInputTypeDef } from "./input/testValidation.input.js";
 import { NodeTypeDef } from "./node.schema.js";
+import { PaginationInfoTypeDef } from "./pagination/pagination.schema.js";
 import { CommentTypeDef } from "./post/comment.schema.js";
 import { LikeTypeDef } from "./post/like.schema.js";
 import { PostTypeDef } from "./post/post.schema.js";
@@ -31,6 +32,7 @@ const TypeDefs = [
   BookTypeDef,
   ColorBookTypeDef,
   TextBookTypeDef,
+  PaginationInfoTypeDef,
 ];
 
 export default TypeDefs;

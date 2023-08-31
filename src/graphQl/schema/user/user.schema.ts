@@ -7,6 +7,7 @@ export const UserTypeDef = `
     location: String!
     posts: [Post!]!
     createdAt: Date
-    contactDetails: JSON 
+    contactDetails: JSON
+    paginationInfo: PaginationInfo
   }
 `;

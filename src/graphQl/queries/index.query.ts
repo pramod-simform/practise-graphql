@@ -10,5 +10,7 @@ export const QueryTypeDef = `
     helloDate: String @date(format: "DD/MM/YYYY")
     testError: String
     testValidation(input: UserEmailInput): User
+    getUsers(page: Int!, limit: Int!, searchTerm: String, sortByOrder: String, sortByField: String): [User]
+    paginationInfo(entityType: String!, limit: Int!, page: Int!, searchTerm: String): PaginationInfo!
   }
 `;
