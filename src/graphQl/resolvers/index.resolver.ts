@@ -25,6 +25,7 @@ import {
   GetPostFieldsResolver
 } from "./queries/post.resolver.js";
 import {
+  TestResolver,
   TestSubQueryFieldResolver
 } from "./queries/test.resolver.js";
 import {
@@ -42,6 +43,7 @@ export const Resolvers = {
     ...GetLikeByIdResolver,
     ...GetNodeByIdResolver,
     ...BookResolver,
+    ...TestResolver,
 
     ...GetPaginationInfoResolver,
   },

@@ -13,6 +13,7 @@ import { CommentTypeDef } from "./post/comment.schema.js";
 import { LikeTypeDef } from "./post/like.schema.js";
 import { PostTypeDef } from "./post/post.schema.js";
 import { ScalerIncludesTypeDefs } from "./scalerIncludes.schema.js";
+import { TestTypeDef } from "./test/test.schema.js";
 import { UserTypeDef } from "./user/user.schema.js";
 
 const TypeDefs = [
@@ -33,6 +34,8 @@ const TypeDefs = [
   ColorBookTypeDef,
   TextBookTypeDef,
   PaginationInfoTypeDef,
+
+  TestTypeDef,
 ];
 
 export default TypeDefs;
