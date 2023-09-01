@@ -4,6 +4,7 @@ import { SubscriptionTypeDef } from "../subscriptions/index.subscription.js";
 import { BookTypeDef } from "./book/book.schema.js";
 import { ColorBookTypeDef } from "./book/colorBook.schema.js";
 import { TextBookTypeDef } from "./book/textBook.schema.js";
+import { AuthDirectiveTypeDefs } from "./customDirectives/auth.directive.js";
 import { dateDirectiveTypeDefs } from "./customDirectives/dateFormat.directive.js";
 import { UpperCaseTypeDefs } from "./customDirectives/uppercase.directive.js";
 import { UserInputTypeDef } from "./input/testValidation.input.js";
@@ -21,6 +22,8 @@ const TypeDefs = [
   
   UpperCaseTypeDefs,
   dateDirectiveTypeDefs,
+  AuthDirectiveTypeDefs,
+
   ScalerIncludesTypeDefs,
   QueryTypeDef,
   MutationTypeDef,

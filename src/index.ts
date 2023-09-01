@@ -22,6 +22,7 @@ import { Resolvers } from "./graphQl/resolvers/index.resolver.js";
 
 import { dateDirectiveTransformer } from "./graphQl/schema/customDirectives/dateFormat.directive.js";
 import UppercaseDirective from "./graphQl/schema/customDirectives/uppercase.directive.js";
+import AuthDirective from "./graphQl/schema/customDirectives/auth.directive.js";
 
 import TypeDefs from "./graphQl/schema/index.schema.js";
 
@@ -45,12 +46,13 @@ const subgraphSchema = makeExecutableSchema({
 /**
  * Custom directives
  */
-const schema = [UppercaseDirective("upper"), dateDirectiveTransformer].reduce(
-  (curSchema, transformer) => {
-    return transformer(curSchema);
-  },
-  subgraphSchema
-);
+const schema = [
+  UppercaseDirective("upper"),
+  dateDirectiveTransformer,
+  AuthDirective("auth"),
+].reduce((curSchema, transformer) => {
+  return transformer(curSchema);
+}, subgraphSchema);
 
 createConnection();
 

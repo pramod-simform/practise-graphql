@@ -1,7 +1,7 @@
 export const UserTypeDef = `
-  type User implements Node {
+  type User implements Node @auth(roles: ["Admin"]) {
     _id: ID!
-    name: String!
+    name: String! @auth(roles: ["Sub_Admin"])
     email: String!
     age: Int!
     location: String!
