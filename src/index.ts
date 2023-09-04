@@ -6,6 +6,7 @@ import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHt
 import bodyParser from "body-parser";
 import cors from "cors";
 import express from "express";
+import { config } from "dotenv";
 
 import { expressMiddleware } from "@apollo/server/express4";
 import { useServer } from "graphql-ws/lib/use/ws";
@@ -33,6 +34,8 @@ import LogPlugin from "./plugins/log.plugin.js";
 import { validateJOISchema } from "./utils/helper.js";
 import "./utils/pubSub.utils.js";
 import ValidationSchemas from "./validation/index.validation.js";
+
+config();
 
 const resolvers = {
   ...Resolvers,

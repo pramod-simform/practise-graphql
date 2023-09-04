@@ -1,7 +1,7 @@
 import { connect } from "mongoose";
 
 const createConnection = async () => {
-  await connect("mongodb://localhost:27017/mock_users").then(() => {
+  await connect(process.env.DB_URL!).then(() => {
     console.log("Connection create successfully!!!");
   });
 };
