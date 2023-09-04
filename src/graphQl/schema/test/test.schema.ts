@@ -3,6 +3,6 @@ export const TestTypeDef = `
     _id: String
     name: String
     email: String
-    post(postId: String): Post
+    post(postId: ID!): Post
   }
 `;

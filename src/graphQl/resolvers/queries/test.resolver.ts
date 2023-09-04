@@ -27,12 +27,13 @@ export const TestResolver = {
     return new Date();
   },
 
-  testSubQuery: async () => {
+  testSubQuery: async (_: any, args: any) => {
     let response: { [key: string]: any } = {};
+    let { userId } = args;
 
     let userInfo = await getUserDetails({
       where: {
-        _id: "user1",
+        _id: userId,
       },
     });
 
@@ -46,10 +47,12 @@ export const TestResolver = {
 
 export const TestSubQueryFieldResolver = {
   TestSubQuery: {
-    post: async (_: any, __: any, ___: any, info: any) => {
+    post: async (_: any, args: any) => {
+      const { postId } = args;
+
       return getPostDetails({
         where: {
-          _id: info.variableValues.postId,
+          _id: postId,
         },
       });
     },
