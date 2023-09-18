@@ -5,8 +5,8 @@ import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHt
 
 import bodyParser from "body-parser";
 import cors from "cors";
-import express from "express";
 import { config } from "dotenv";
+import express from "express";
 
 import { expressMiddleware } from "@apollo/server/express4";
 import { useServer } from "graphql-ws/lib/use/ws";
@@ -21,9 +21,9 @@ import createConnection from "./db/connection.js";
 
 import { Resolvers } from "./graphQl/resolvers/index.resolver.js";
 
+import AuthDirective from "./graphQl/schema/customDirectives/auth.directive.js";
 import { dateDirectiveTransformer } from "./graphQl/schema/customDirectives/dateFormat.directive.js";
 import UppercaseDirective from "./graphQl/schema/customDirectives/uppercase.directive.js";
-import AuthDirective from "./graphQl/schema/customDirectives/auth.directive.js";
 
 import TypeDefs from "./graphQl/schema/index.schema.js";
 
@@ -34,6 +34,7 @@ import LogPlugin from "./plugins/log.plugin.js";
 import { validateJOISchema } from "./utils/helper.js";
 import "./utils/pubSub.utils.js";
 import ValidationSchemas from "./validation/index.validation.js";
+import depthLimit from "./validators/depthLimit.js";
 
 config();
 
@@ -63,6 +64,7 @@ const app = express();
 app.use(cors());
 const httpServer = createServer(app);
 
+httpServer.setTimeout(5 * 1000); // 5 * 1000ms timeout
 // Creating the WebSocket server
 const wsServer = new WebSocketServer({
   // This is the `httpServer` we created in a previous step.
@@ -89,6 +91,8 @@ const serverCleanup = useServer(
 
 const server = new ApolloServer<IContext>({
   schema,
+  validationRules: [depthLimit(10)],
+  introspection: true, // This should only true for development env
   includeStacktraceInErrorResponses: false,
   formatError: (formattedError, error) => {
     const code = formattedError?.extensions?.code;
