@@ -31,6 +31,7 @@ import { IContext } from "./interfaces/context.interface.js";
 
 import LogPlugin from "./plugins/log.plugin.js";
 
+import authLimiter from "./middlewares/rateLimiter.js";
 import { validateJOISchema } from "./utils/helper.js";
 import "./utils/pubSub.utils.js";
 import ValidationSchemas from "./validation/index.validation.js";
@@ -62,9 +63,12 @@ createConnection();
 
 const app = express();
 app.use(cors());
+app.use(authLimiter);
+
 const httpServer = createServer(app);
 
 httpServer.setTimeout(5 * 1000); // 5 * 1000ms timeout
+
 // Creating the WebSocket server
 const wsServer = new WebSocketServer({
   // This is the `httpServer` we created in a previous step.
