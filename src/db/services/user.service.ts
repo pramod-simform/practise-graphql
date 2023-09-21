@@ -58,7 +58,7 @@ export const createUser = async ({
     email,
     age,
     location,
-    contactDetails,
+    ...(contactDetails ? { contactDetails } : {}),
   });
 
   return (await UserObj.save()).toObject();
