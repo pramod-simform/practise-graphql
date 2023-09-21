@@ -1,7 +1,11 @@
 export interface IUserRequest {
-  _id?: string;
-  name: string;
-  email: string;
-  age: number;
-  location?: string;
+  id?: string;
+  fullName: string;
+  username: string;
+  ageGroup: number;
+  address?: string;
+  contactInfo?: {
+    tel: string;
+    isoCode: string;
+  };
 }

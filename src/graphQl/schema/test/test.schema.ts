@@ -1,8 +1,8 @@
 export const TestTypeDef = `
   type TestSubQuery {
-    _id: String
-    name: String
-    email: String
+    id: String
+    fullName: String
+    username: String
     post(postId: ID!): Post
   }
 `;

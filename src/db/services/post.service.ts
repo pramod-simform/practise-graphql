@@ -18,8 +18,8 @@ export const getPosts = async ({ where }: { where: any }) => {
 
 export const createPost = async ({
   userId,
-  title,
-  content,
+  heading: title,
+  description: content,
 }: IPost): Promise<IPost> => {
   const PostObj = new PostModel({
     _id: uuidv4(),
@@ -28,17 +28,22 @@ export const createPost = async ({
     userId,
   });
 
-  return PostObj.save();
+  return (await PostObj.save()).toObject();
 };
 
 export const updatePost = async (updateBody: IPost): Promise<IPost | null> => {
-  const { _id } = updateBody;
+  const { id: _id } = updateBody;
 
   const Post = await PostModel.findById(_id);
   if (Post) {
-    Object.assign(Post, updateBody);
+    let update = {
+      title: updateBody.heading,
+      content: updateBody.description,
+      userId: updateBody.userId,
+    };
+    Object.assign(Post, update);
 
-    return Post.save();
+    return (await Post.save()).toObject();
   }
   return null;
 };

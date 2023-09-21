@@ -147,7 +147,7 @@ const server = new ApolloServer<IContext>({
               ) {
                 response.body.singleResult.data.getBooks =
                   response.body.singleResult.data.getBooks.filter(
-                    (row: any) => row._id
+                    (row: any) => row._id || row.id
                   );
               }
             }

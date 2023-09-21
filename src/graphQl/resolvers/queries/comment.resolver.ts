@@ -1,6 +1,7 @@
 import { getCommentDetails } from "../../../db/services/comment.service.js";
 import { getPostDetails } from "../../../db/services/post.service.js";
 import { getUserDetails } from "../../../db/services/user.service.js";
+import { getFieldsMappedData } from "../../../utils/helper.js";
 
 export const GetCommentByIdResolver = {
   getCommentById: async (_: any, args: any) => {
@@ -9,7 +10,10 @@ export const GetCommentByIdResolver = {
       throw new Error("Comment id is missing.");
     }
 
-    return await getCommentDetails({ where: { _id: id } });
+    return getFieldsMappedData(
+      "comments",
+      await getCommentDetails({ where: { _id: id } })
+    );
   },
 };
 
@@ -18,20 +22,26 @@ export const GetCommentFieldsResolver = {
     user: async (parent: any, args: any) => {
       const { userId } = parent;
 
-      return await getUserDetails({
-        where: {
-          _id: userId,
-        },
-      });
+      return getFieldsMappedData(
+        "users",
+        await getUserDetails({
+          where: {
+            _id: userId,
+          },
+        })
+      );
     },
     post: async (parent: any, args: any) => {
       const { postId } = parent;
 
-      return await getPostDetails({
-        where: {
-          _id: postId,
-        },
-      });
+      return getFieldsMappedData(
+        "posts",
+        await getPostDetails({
+          where: {
+            _id: postId,
+          },
+        })
+      );
     },
   },
 };

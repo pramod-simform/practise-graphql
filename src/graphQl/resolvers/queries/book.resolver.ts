@@ -1,52 +1,60 @@
 import { getColorBooks } from "../../../db/services/colorBook.service.js";
 import { getTextBooks } from "../../../db/services/textbook.service.js";
 import { getUserDetails } from "../../../db/services/user.service.js";
+import { getFieldsMappedData } from "../../../utils/helper.js";
 
 export const BookResolver = {
   getBooks: async () => {
-    const TextBooks = await getTextBooks({
-      where: {},
-    });
-
-    const ColorBooks = await getColorBooks({
-      where: {},
-    });
-
+    const TextBooks = getFieldsMappedData(
+      "textbooks",
+      await getTextBooks({
+        where: {},
+      })
+    );
+    const ColorBooks = getFieldsMappedData(
+      "colorbooks",
+      await getColorBooks({
+        where: {},
+      })
+    );
     return [...TextBooks, ...ColorBooks];
   },
 };
 
 const _bookFieldResolver = {
-  author: async (parent: any) => {
-    const { authorId } = parent;
+  writer: async (parent: any) => {
+    const { writerId: authorId } = parent;
 
-    return await getUserDetails({
-      where: {
-        _id: authorId,
-      },
-    });
+    return getFieldsMappedData(
+      "users",
+      await getUserDetails({
+        where: {
+          _id: authorId,
+        },
+      })
+    );
   },
 };
 
 export const GetColorBookFieldsResolver = {
   TextBook: {
-    ..._bookFieldResolver
+    ..._bookFieldResolver,
   },
   ColorBook: {
-    ..._bookFieldResolver
+    ..._bookFieldResolver,
   },
 };
 
 export const BookResolverType = {
   AllBooks: {
     __resolveType(obj: any) {
+      let resolveType = null;
       if (obj.color) {
-        return "ColorBook";
-      } else if (obj.subject) {
-        return "TextBook";
+        resolveType = "ColorBook";
+      } else if (obj.academicSubject) {
+        resolveType = "TextBook";
       }
-
-      return null;
+      return resolveType;
     },
   },
 };

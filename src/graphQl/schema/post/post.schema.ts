@@ -1,9 +1,9 @@
 export const PostTypeDef = `
   type Post implements Node {
-    _id: ID!
+    id: ID!
     userId: ID!
-    title: String!
-    content: String!
+    heading: String!
+    description: String!
     user: User!
     comments: [Comment]
     likes: [Like]

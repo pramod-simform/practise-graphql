@@ -1,13 +1,12 @@
 export const UserTypeDef = `
   type User implements Node @auth(roles: ["Admin"]) {
-    _id: ID!
-    name: String! @auth(roles: ["Sub_Admin"])
-    email: String!
-    age: Int!
-    location: String!
+    id: ID!
+    fullName: String! #@auth(roles: ["Sub_Admin"])
+    username: String!
+    ageGroup: Int!
+    address: String!
     posts: [Post!]!
     createdAt: Date
-    contactDetails: JSON
-    paginationInfo: PaginationInfo
+    contactInfo: JSON
   }
 `;

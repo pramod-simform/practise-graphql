@@ -1,8 +1,8 @@
 export const TextBookTypeDef = `
   type TextBook implements Book {
-    _id: ID!
-    title: String!
-    author: User!
-    subject: String!
+    id: ID!
+    bookName: String!
+    writer: User!
+    academicSubject: String!
   }
 `;
