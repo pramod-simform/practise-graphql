@@ -1,33 +1,43 @@
-# My first GraphQl App using Apollo Server Package
+# My First GraphQL App using Apollo Server Package
 
-## Please find below all the things which we should know for run this project.
+## Prerequisites
 
-**I am running this project on Node version:**
-`v16.13.1`
+Before running this project, please ensure that you have the following dependencies installed:
 
-**NPM version:**
-`8.1.2`
+- Node.js (v16.13.1)
+- npm (v8.1.2)
+- TypeScript (Install globally or at the project level using `npm i -g typescript@next`)
 
-**We can run the project in development mode using the following command:**
+## Getting Started
 
-`npm run dev`
+To run the project in development mode, use the following command:
 
+```bash
+npm run dev
+```
 
-**I have install typescript@next for tsc globally or at project level using following command:**
+For production mode, use:
 
-`npm i -g typescript@next`
+```bash
+npm start
+```
 
-**After this we can run the project using production mode:**
+## Database Setup
 
-`npm start`
+I have included a sample 'db' folder to help you get started. Additionally, there's a database seeder available. Create an .env file and add your DB_URL there. To seed the database, run the following command:
 
-**I have also attached the sample db folder for start the app first time. I have also created a db seeder. We just need to create a env file and add the DB_URL there. Please find the seeder command below:**
+```bash
+npm run db:seed
+```
 
-`npm run db:seed`
+## Environment Variables
 
+Please create a custom .env file based on the provided .env.example. This file will store environment-specific configurations.
 
-**I have attached a sample env file (.env.example). Here from you can create your custom original env file.**
+## Authentication
 
-**For authentication, please add the Authorization in the header. I have added sample key in the env file. If you want then copy it to the original env file. Also if you want to generate the new token then I have also added the generateToken util method in the utils file. You can generate the token manually and send it in the header. Please find the sample token below:**
+For authentication, include the Authorization header in your requests. A sample key is provided in the .env file. If you wish to generate a new token manually, you can use the generateToken utility method found in the utils file. Here's an example of a token:
 
-`Authorization: eyJhbGciOiJIUzI1NiJ9.eyJJc3N1ZXIiOiJJc3N1ZXIiLCJJc3N1ZWQgQXQiOiIyMDIzLTA4LTI0VDEyOjA5OjAwLjM0N1oiLCJFeHBpcmF0aW9uIjoiMjAyMy0wOC0yNFQxMjowOTowMC4zNDdaIiwiVXNlcm5hbWUiOiJKYXZhSW5Vc2UiLCJSb2xlIjoiQWRtaW4ifQ.0EMtRIuPR8kRs7ZBuMfTSV6Zl4yjuhFl_-6IhLI6Iq4`
+`
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJJc3N1ZXIiOiJJc3N1ZXIiLCJJc3N1ZWQgQXQiOiIyMDIzLTA8LTI0VDEyOjA5OjAwLjM0N1oiLCJFeHBpcmF0aW9uIjoiMjAyMy0wOC0yNFQxMjowOTowMC4zNDdaIiwiVXNlcm5hbWUiOiJKYXZhSW5Vc2UiLCJSb2xlIjoiQWRtaW4ifQ.0EMtRIuPR8kRs7ZBuMfTSV6Zl4yjuhFl_-6IhLI6Iq4
+`
