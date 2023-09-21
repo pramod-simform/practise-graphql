@@ -40,7 +40,7 @@ export const GetUserByIdResolver = {
 export const GetUserFieldsResolver = {
   User: {
     posts: async (parent: any) => {
-      const { _id } = parent;
+      const { id: _id } = parent;
 
       return getFieldsMappedData(
         "posts",
