@@ -25,7 +25,7 @@ export const createComment = async ({
     _id: uuidv4(),
     userId,
     postId,
-    note: content,
+    content,
   });
 
   return (await CommentObj.save()).toObject();
