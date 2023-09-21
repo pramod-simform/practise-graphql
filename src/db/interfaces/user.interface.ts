@@ -4,4 +4,8 @@ export interface IUser {
   email: string;
   age: number;
   location?: string;
+  contactDetails: {
+    phone_number: string;
+    country_code: string;
+  };
 }

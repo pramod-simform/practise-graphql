@@ -19,7 +19,7 @@ export const getComments = async ({ where }: { where: any }) => {
 export const createComment = async ({
   userId,
   postId,
-  content,
+  note: content,
 }: IComment): Promise<IComment> => {
   const CommentObj = new CommentModel({
     _id: uuidv4(),
@@ -28,19 +28,22 @@ export const createComment = async ({
     content,
   });
 
-  return CommentObj.save();
+  return (await CommentObj.save()).toObject();
 };
 
 export const updateComment = async (
   updateBody: IComment
 ): Promise<IComment | null> => {
-  const { _id } = updateBody;
+  const { id: _id } = updateBody;
 
   const Comment = await CommentModel.findById(_id);
   if (Comment) {
-    Object.assign(Comment, updateBody);
+    const update = {
+      content: updateBody.note,
+    };
+    Object.assign(Comment, update);
 
-    return Comment.save();
+    return (await Comment.save()).toObject();
   }
   return null;
 };

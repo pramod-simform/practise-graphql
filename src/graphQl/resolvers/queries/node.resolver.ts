@@ -6,6 +6,7 @@ import { ICommentRequest } from "../../../interfaces/comment.interface.js";
 import { getCommentDetails } from "../../../db/services/comment.service.js";
 import { ILikeRequest } from "../../../interfaces/like.interface.js";
 import { getLikeDetails } from "../../../db/services/like.service.js";
+import { getFieldsMappedData } from "../../../utils/helper.js";
 
 export const GetNodeByIdResolver = {
   getNodeById: async (_: any, args: any) => {
@@ -15,25 +16,37 @@ export const GetNodeByIdResolver = {
 
     let data: unknown = null;
     let type: unknown = null;
-    const User: IUserRequest | null = await getUserDetails(WhereCond);
+    const User: IUserRequest | null = getFieldsMappedData(
+      "users",
+      await getUserDetails(WhereCond)
+    );
     if (User) {
       data = User;
       type = "User";
     }
 
-    const Post: IPostRequest | null = await getPostDetails(WhereCond);
+    const Post: IPostRequest | null = getFieldsMappedData(
+      "posts",
+      await getPostDetails(WhereCond)
+    );
     if (Post) {
       data = Post;
       type = "Post";
     }
 
-    const Comment: ICommentRequest | null = await getCommentDetails(WhereCond);
+    const Comment: ICommentRequest | null = getFieldsMappedData(
+      "comments",
+      await getCommentDetails(WhereCond)
+    );
     if (Comment) {
       data = Comment;
       type = "Comment";
     }
 
-    const Like: ILikeRequest | null = await getLikeDetails(WhereCond);
+    const Like: ILikeRequest | null = getFieldsMappedData(
+      "likes",
+      await getLikeDetails(WhereCond)
+    );
     if (Like) {
       data = Like;
       type = "Like";

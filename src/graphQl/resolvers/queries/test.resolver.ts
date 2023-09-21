@@ -1,6 +1,7 @@
 import { GraphQLError } from "graphql";
 import { getPostDetails } from "../../../db/services/post.service.js";
 import { getUserDetails } from "../../../db/services/user.service.js";
+import { getFieldsMappedData } from "../../../utils/helper.js";
 
 export const TestResolver = {
   testError: async () => {
@@ -12,11 +13,14 @@ export const TestResolver = {
   },
 
   testValidation: async (_: any, args: any) => {
-    return getUserDetails({
-      where: {
-        email: args.input.email,
-      },
-    });
+    return getFieldsMappedData(
+      "users",
+      await getUserDetails({
+        where: {
+          email: args.input.username,
+        },
+      })
+    );
   },
 
   hello() {
@@ -31,11 +35,14 @@ export const TestResolver = {
     let response: { [key: string]: any } = {};
     let { userId } = args;
 
-    let userInfo = await getUserDetails({
-      where: {
-        _id: userId,
-      },
-    });
+    let userInfo = getFieldsMappedData(
+      "users",
+      await getUserDetails({
+        where: {
+          _id: userId,
+        },
+      })
+    );
 
     if (userInfo) {
       response = { ...response, ...userInfo };
@@ -50,11 +57,14 @@ export const TestSubQueryFieldResolver = {
     post: async (_: any, args: any) => {
       const { postId } = args;
 
-      return getPostDetails({
-        where: {
-          _id: postId,
-        },
-      });
+      return getFieldsMappedData(
+        "posts",
+        await getPostDetails({
+          where: {
+            _id: postId,
+          },
+        })
+      );
     },
   },
 };

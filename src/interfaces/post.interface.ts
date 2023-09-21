@@ -1,6 +1,6 @@
 export interface IPostRequest {
-  _id?: string;
+  id?: string;
   userId: string;
-  title: string;
-  content: string;
+  heading: string;
+  description: string;
 }

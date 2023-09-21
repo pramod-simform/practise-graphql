@@ -1,6 +1,6 @@
 export interface ICommentRequest {
-  _id?: string;
+  id?: string;
   userId: string;
   postId: string;
-  content: string;
+  note: string;
 }

@@ -5,8 +5,8 @@ import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHt
 
 import bodyParser from "body-parser";
 import cors from "cors";
-import express from "express";
 import { config } from "dotenv";
+import express from "express";
 
 import { expressMiddleware } from "@apollo/server/express4";
 import { useServer } from "graphql-ws/lib/use/ws";
@@ -21,9 +21,9 @@ import createConnection from "./db/connection.js";
 
 import { Resolvers } from "./graphQl/resolvers/index.resolver.js";
 
+import AuthDirective from "./graphQl/schema/customDirectives/auth.directive.js";
 import { dateDirectiveTransformer } from "./graphQl/schema/customDirectives/dateFormat.directive.js";
 import UppercaseDirective from "./graphQl/schema/customDirectives/uppercase.directive.js";
-import AuthDirective from "./graphQl/schema/customDirectives/auth.directive.js";
 
 import TypeDefs from "./graphQl/schema/index.schema.js";
 
@@ -31,9 +31,11 @@ import { IContext } from "./interfaces/context.interface.js";
 
 import LogPlugin from "./plugins/log.plugin.js";
 
+import authLimiter from "./middlewares/rateLimiter.js";
 import { validateJOISchema } from "./utils/helper.js";
 import "./utils/pubSub.utils.js";
 import ValidationSchemas from "./validation/index.validation.js";
+import depthLimit from "./validators/depthLimit.js";
 
 config();
 
@@ -61,7 +63,11 @@ createConnection();
 
 const app = express();
 app.use(cors());
+app.use(authLimiter);
+
 const httpServer = createServer(app);
+
+httpServer.setTimeout(5 * 1000); // 5 * 1000ms timeout
 
 // Creating the WebSocket server
 const wsServer = new WebSocketServer({
@@ -89,6 +95,8 @@ const serverCleanup = useServer(
 
 const server = new ApolloServer<IContext>({
   schema,
+  validationRules: [depthLimit(10)],
+  introspection: true, // This should only true for development env
   includeStacktraceInErrorResponses: false,
   formatError: (formattedError, error) => {
     const code = formattedError?.extensions?.code;
@@ -139,7 +147,7 @@ const server = new ApolloServer<IContext>({
               ) {
                 response.body.singleResult.data.getBooks =
                   response.body.singleResult.data.getBooks.filter(
-                    (row: any) => row._id
+                    (row: any) => row._id || row.id
                   );
               }
             }

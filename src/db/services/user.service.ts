@@ -46,10 +46,11 @@ export const getUserDetails = async ({ where }: getUserDetails) => {
 };
 
 export const createUser = async ({
-  name,
-  email,
-  age,
-  location,
+  fullName: name,
+  username: email,
+  ageGroup: age,
+  address: location,
+  contactInfo: contactDetails,
 }: IUser): Promise<IUser> => {
   const UserObj = new UserModel({
     _id: uuidv4(),
@@ -57,19 +58,34 @@ export const createUser = async ({
     email,
     age,
     location,
+    ...(contactDetails ? { contactDetails } : {}),
   });
 
-  return UserObj.save();
+  return (await UserObj.save()).toObject();
 };
 
 export const updateUser = async (updateBody: IUser): Promise<IUser | null> => {
-  const { _id } = updateBody;
+  const { id: _id } = updateBody;
 
   const User = await UserModel.findById(_id);
   if (User) {
-    Object.assign(User, updateBody);
+    const update = {
+      name: updateBody.fullName,
+      email: updateBody.username,
+      age: updateBody.ageGroup,
+      location: updateBody.address,
+      ...(updateBody.contactInfo
+        ? {
+            contactDetails: {
+              phone_number: updateBody.contactInfo?.tel,
+              country_code: updateBody.contactInfo?.isoCode,
+            },
+          }
+        : {}),
+    };
+    Object.assign(User, update);
 
-    return User.save();
+    return (await User.save()).toObject();
   }
   return null;
 };
