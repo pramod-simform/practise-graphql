@@ -2,9 +2,18 @@ import { v4 as uuidv4 } from "uuid";
 
 import { ICommentRequest as IComment } from "../../interfaces/comment.interface.js";
 import CommentModel from "../models/comment.model.js";
+import { IDynamicObject } from "../../interfaces/common.interface.js";
 
-export const getCommentDetails = async ({ where }: { where: any }) => {
-  const Comment: IComment | null = await CommentModel.findOne(where).lean();
+export const getCommentDetails = async ({
+  where,
+  selectedFields = {},
+}: {
+  where: any;
+  selectedFields?: IDynamicObject;
+}) => {
+  const Comment: IComment | null = await CommentModel.findOne(where)
+    .select(selectedFields)
+    .lean();
   if (Comment) {
     return Comment;
   }

@@ -4,12 +4,13 @@ import { getSortOrder } from "../../graphQl/resolvers/queries/utils.resolver.js"
 import { IUserRequest as IUser } from "../../interfaces/user.interface.js";
 import UserModel from "../models/user.model.js";
 
-type getUserDetails = {
+type GetUserDetails = {
   where: any;
   limit?: number;
   page?: number;
   sortByOrder?: string;
   sortByField?: string;
+  selectedFields?: { [x: string]: number };
 };
 
 export const getUsers = async ({
@@ -18,7 +19,8 @@ export const getUsers = async ({
   page = 0,
   sortByOrder = "asc",
   sortByField = "name",
-}: getUserDetails) => {
+  selectedFields = {},
+}: GetUserDetails) => {
   const offset = (page - 1) * limit;
 
   const formattedSortBy = getSortOrder({
@@ -32,13 +34,22 @@ export const getUsers = async ({
       .sort(sortCriteria)
       .skip(offset)
       .limit(limit)
+      .select(selectedFields)
       .lean();
   }
-  return await UserModel.find(where).sort(sortCriteria).lean();
+  return await UserModel.find(where)
+    .sort(sortCriteria)
+    .select(selectedFields)
+    .lean();
 };
 
-export const getUserDetails = async ({ where }: getUserDetails) => {
-  const User: IUser | null = await UserModel.findOne(where).lean();
+export const getUserDetails = async ({
+  where,
+  selectedFields = {},
+}: GetUserDetails) => {
+  const User: IUser | null = await UserModel.findOne(where)
+    .select(selectedFields)
+    .lean();
   if (User) {
     return User;
   }

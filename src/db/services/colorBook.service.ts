@@ -2,6 +2,7 @@ import { v4 as uuidv4 } from "uuid";
 
 import { IColorBookRequest } from "../../interfaces/colorBook.interface.js";
 import ColorBookModel from "../models/colorBooks.model.js";
+import { IDynamicObject } from "../../interfaces/common.interface.js";
 
 export const getColorBookDetails = async ({ where }: { where: any }) => {
   const ColorBook: IColorBookRequest | null = await ColorBookModel.findOne(
@@ -13,10 +14,16 @@ export const getColorBookDetails = async ({ where }: { where: any }) => {
   return null;
 };
 
-export const getColorBooks = async ({ where }: { where: any }) => {
-  const ColorBooks: [IColorBookRequest] = await ColorBookModel.find(
-    where
-  ).lean();
+export const getColorBooks = async ({
+  where,
+  selectedFields = {},
+}: {
+  where: any;
+  selectedFields?: IDynamicObject;
+}) => {
+  const ColorBooks: [IColorBookRequest] = await ColorBookModel.find(where)
+    .select(selectedFields)
+    .lean();
   return ColorBooks;
 };
 
@@ -32,7 +39,7 @@ export const createColorBook = async ({
     color,
   });
 
-  return ColorBookObj.save();
+  return (await ColorBookObj.save()).toObject();
 };
 
 export const updateColorBook = async (
@@ -44,7 +51,7 @@ export const updateColorBook = async (
   if (ColorBook) {
     Object.assign(ColorBook, updateBody);
 
-    return ColorBook.save();
+    return (await ColorBook.save()).toObject();
   }
   return null;
 };

@@ -2,6 +2,7 @@ import { v4 as uuidv4 } from "uuid";
 
 import { ITextBookRequest } from "../../interfaces/textBook.interface.js";
 import TextBookModel from "../models/textBooks.model.js";
+import { IDynamicObject } from "../../interfaces/common.interface.js";
 
 export const getTextBookDetails = async ({ where }: { where: any }) => {
   const TextBook: ITextBookRequest | null = await TextBookModel.findOne(
@@ -13,8 +14,16 @@ export const getTextBookDetails = async ({ where }: { where: any }) => {
   return null;
 };
 
-export const getTextBooks = async ({ where }: { where: any }) => {
-  const TextBooks: [ITextBookRequest] = await TextBookModel.find(where).lean();
+export const getTextBooks = async ({
+  where,
+  selectedFields = {},
+}: {
+  where: any;
+  selectedFields?: IDynamicObject;
+}) => {
+  const TextBooks: [ITextBookRequest] = await TextBookModel.find(where)
+    .select(selectedFields)
+    .lean();
   return TextBooks;
 };
 
@@ -30,7 +39,7 @@ export const createTextBook = async ({
     subject,
   });
 
-  return TextBookObj.save();
+  return (await TextBookObj.save()).toObject();
 };
 
 export const updateTextBook = async (
@@ -42,7 +51,7 @@ export const updateTextBook = async (
   if (TextBook) {
     Object.assign(TextBook, updateBody);
 
-    return TextBook.save();
+    return (await TextBook.save()).toObject();
   }
   return null;
 };

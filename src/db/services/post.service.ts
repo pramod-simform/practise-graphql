@@ -2,17 +2,34 @@ import { v4 as uuidv4 } from "uuid";
 
 import { IPostRequest as IPost } from "../../interfaces/post.interface.js";
 import PostModel from "../models/posts.model.js";
+import { IDynamicObject } from "../../interfaces/common.interface.js";
 
-export const getPostDetails = async ({ where }: { where: any }) => {
-  const Post: IPost | null = await PostModel.findOne(where).lean();
+export const getPostDetails = async ({
+  where,
+  selectedFields = {},
+}: {
+  where: any;
+  selectedFields?: IDynamicObject;
+}) => {
+  const Post: IPost | null = await PostModel.findOne(where)
+    .select(selectedFields)
+    .lean();
   if (Post) {
     return Post;
   }
   return null;
 };
 
-export const getPosts = async ({ where }: { where: any }) => {
-  const Posts: [IPost] = await PostModel.find(where).lean();
+export const getPosts = async ({
+  where,
+  selectedFields = {},
+}: {
+  where: any;
+  selectedFields: IDynamicObject;
+}) => {
+  const Posts: [IPost] = await PostModel.find(where)
+    .select(selectedFields)
+    .lean();
   return Posts;
 };
 
