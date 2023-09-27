@@ -13,6 +13,10 @@ import { useServer } from "graphql-ws/lib/use/ws";
 import { v4 as uuidv4 } from "uuid";
 import { WebSocketServer } from "ws";
 
+import { KeyvAdapter } from "@apollo/utils.keyvadapter";
+import Keyv from "keyv";
+
+
 import { makeExecutableSchema } from "@graphql-tools/schema";
 
 import { decodeJWTToken } from "./utils/jwt.js";
@@ -31,6 +35,7 @@ import { IContext } from "./interfaces/context.interface.js";
 
 import LogPlugin from "./plugins/log.plugin.js";
 
+import { memcache } from "./cache/memcached.cache.js";
 import authLimiter from "./middlewares/rateLimiter.js";
 import { validateJOISchema } from "./utils/helper.js";
 import "./utils/pubSub.utils.js";
@@ -95,6 +100,7 @@ const serverCleanup = useServer(
 
 const server = new ApolloServer<IContext>({
   schema,
+  cache: new KeyvAdapter(new Keyv({ store: memcache })),
   validationRules: [depthLimit(10)],
   introspection: true, // This should only true for development env
   includeStacktraceInErrorResponses: false,

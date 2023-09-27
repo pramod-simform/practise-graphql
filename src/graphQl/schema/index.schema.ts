@@ -5,6 +5,7 @@ import { BookTypeDef } from "./book/book.schema.js";
 import { ColorBookTypeDef } from "./book/colorBook.schema.js";
 import { TextBookTypeDef } from "./book/textBook.schema.js";
 import { AuthDirectiveTypeDefs } from "./customDirectives/auth.directive.js";
+import { CacheDirectiveTypeDefs } from "./customDirectives/cache.directive.js";
 import { dateDirectiveTypeDefs } from "./customDirectives/dateFormat.directive.js";
 import { UpperCaseTypeDefs } from "./customDirectives/uppercase.directive.js";
 import { UserInputTypeDef } from "./input/testValidation.input.js";
@@ -23,6 +24,7 @@ const TypeDefs = [
   UpperCaseTypeDefs,
   dateDirectiveTypeDefs,
   AuthDirectiveTypeDefs,
+  CacheDirectiveTypeDefs,
 
   ScalerIncludesTypeDefs,
   QueryTypeDef,
