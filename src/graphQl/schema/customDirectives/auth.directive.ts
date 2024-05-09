@@ -24,11 +24,15 @@ function AuthDirective(
           return {
             ...fieldConfig,
             resolve: async function (source, args, context, info) {
+              const { tokenData } = context;
               const result = await resolve(source, args, context, info);
-              if (authDirective.roles.includes(context.tokenData.Role)) {
-                return result;
+              if (
+                tokenData &&
+                !authDirective.roles.includes(context.tokenData.Role)
+              ) {
+                return null;
               }
-              return null;
+              return result;
             },
           };
         }
