@@ -1,6 +1,7 @@
 // Source: https://the-guild.dev/graphql/tools/docs/schema-directives#enforcing-access-permissions
 
 import { getDirective, MapperKind, mapSchema } from "@graphql-tools/utils";
+import { AuthenticationError } from "apollo-server-core";
 import { defaultFieldResolver, GraphQLSchema } from "graphql";
 
 const typeDirectiveArgumentMaps: Record<string, any> = {};
@@ -18,7 +19,7 @@ function AuthDirective(
         const authDirective =
           getDirective(schema, fieldConfig, directiveName)?.[0] ??
           typeDirectiveArgumentMaps[typeName];
-
+          
         if (authDirective) {
           const { resolve = defaultFieldResolver } = fieldConfig;
           return {
@@ -27,10 +28,10 @@ function AuthDirective(
               const { tokenData } = context;
               const result = await resolve(source, args, context, info);
               if (
-                tokenData &&
-                !authDirective.roles.includes(context.tokenData.Role)
+                process.env.ENABLE_AUTHORIZATION === "true" &&
+                !authDirective.roles.includes(tokenData?.Role)
               ) {
-                return null;
+                throw new AuthenticationError("Unauthorized!");
               }
               return result;
             },
