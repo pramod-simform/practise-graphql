@@ -16,13 +16,6 @@ const _throwException = (error: string) => {
 };
 
 export const decodeJWTToken = (token: string) => {
-  /**
-   * If authorization is disabled then we will not check the token and let the request go without check authentication.
-   */
-  if (process.env.ENABLE_AUTHORIZATION === "false") {
-    return false;
-  }
-
   try {
     var decoded = jwt.verify(token, process.env.JWT_KEY!, {
       algorithms: ["HS256"],
@@ -32,10 +25,10 @@ export const decodeJWTToken = (token: string) => {
       return decoded;
     }
   } catch (e: any) {
-    _throwException(e.message);
+    return false;
   }
 
-  _throwException("Unauthorized request. Please login again.");
+  return false;
 };
 
 export const generateJWTToken = (data: any) => {
