@@ -24,9 +24,16 @@ export const validateJOISchema = (schema: ObjectSchema, data: any) => {
   }
 };
 
-export const getFieldValue = (request: GraphQLRequest, fieldName: string) => {
+export const getFieldValue = (
+  request: GraphQLRequest,
+  fieldName: string,
+  type: string = "string"
+) => {
   var requestBody = request.http?.body as IDynamicObject;
   const fieldValue = requestBody[fieldName];
+  if (type !== "string") {
+    return fieldValue;
+  }
   return fieldValue + "";
 };
 

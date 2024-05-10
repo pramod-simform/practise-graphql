@@ -106,7 +106,7 @@ const LogPlugin: ApolloServerPlugin<IContext> = {
         const operationName = getFieldValue(request, "operationName");
 
         if (operationName !== "IntrospectionQuery") {
-          const variables = getFieldValue(request, "variables");
+          const variables = getFieldValue(request, "variables", "object");
 
           const headers = request.http?.headers;
 
