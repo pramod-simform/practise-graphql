@@ -16,7 +16,6 @@ import { WebSocketServer } from "ws";
 import { KeyvAdapter } from "@apollo/utils.keyvadapter";
 import Keyv from "keyv";
 
-
 import { makeExecutableSchema } from "@graphql-tools/schema";
 
 import { decodeJWTToken } from "./utils/jwt.js";
@@ -182,6 +181,7 @@ app.use(
       let tokenData: any;
 
       const operationName: string = requestContext.req.body?.operationName;
+      
       if (operationName != "IntrospectionQuery" && body?.variables?.input) {
         const variables = body?.variables?.input;
         let schema = ValidationSchemas[operationName];
@@ -190,7 +190,9 @@ app.use(
         }
       }
 
-      tokenData = decodeJWTToken(token);
+      if (operationName != "IntrospectionQuery") {
+        tokenData = decodeJWTToken(token);
+      }
 
       return {
         id: uuidv4(),
